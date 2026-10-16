@@ -11,7 +11,7 @@ public sealed record Id
     public static Result<Id> Create(string value)
     {
         return string.IsNullOrWhiteSpace(value)
-            ? Result<Id>.Failure(ErrorRegistry.IncorrectId)
+            ? Result<Id>.Failure(ErrorRegistry.IncorrectIdValue)
             : Result<Id>.Success(new Id(value));
     }
 }

@@ -1,5 +1,4 @@
 ﻿using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 using ProductRegistry.Domain.Entities;
 using ProductRegistry.Domain.Shared;
@@ -22,15 +21,12 @@ public sealed class ProductCommandRepository(
 
         if (result.IsSuccess)
         {
-            await logger.SendAsync(LogType.Err, ErrorRegistry.ProductAlreadyExists.Message);
+            await logger.SendAsync(LogType.Err, ErrorRegistry.Product.AlreadyExists.Message);
 
-            return ResultVoid.Failure(ErrorRegistry.ProductAlreadyExists);
+            return ResultVoid.Failure(ErrorRegistry.Product.AlreadyExists);
         }
 
-        await File.AppendAllLinesAsync(
-            filePath,
-            [Product.ToCsv(data)]
-        );
+        await File.AppendAllLinesAsync(filePath, [Product.ToCsv(data)]);
         await logger.SendAsync(LogType.Info, "Товар добавился");
 
         return ResultVoid.Success();
@@ -63,9 +59,9 @@ public sealed class ProductCommandRepository(
 
         if (!isFound)
         {
-            await logger.SendAsync(LogType.Err, ErrorRegistry.ProductNotFound.Message);
+            await logger.SendAsync(LogType.Err, ErrorRegistry.Product.NotFound.Message);
 
-            return ResultVoid.Failure(ErrorRegistry.ProductNotFound);
+            return ResultVoid.Failure(ErrorRegistry.Product.NotFound);
         }
 
         await File.WriteAllTextAsync(filePath, string.Empty);
@@ -101,9 +97,9 @@ public sealed class ProductCommandRepository(
 
         if (!isFound)
         {
-            await logger.SendAsync(LogType.Err, ErrorRegistry.ProductNotFound.Message);
+            await logger.SendAsync(LogType.Err, ErrorRegistry.Product.NotFound.Message);
 
-            return ResultVoid.Failure(ErrorRegistry.ProductNotFound);
+            return ResultVoid.Failure(ErrorRegistry.Product.NotFound);
         }
 
         await File.WriteAllTextAsync(filePath, string.Empty);

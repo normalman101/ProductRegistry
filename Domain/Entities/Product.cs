@@ -5,11 +5,11 @@ namespace ProductRegistry.Domain.Entities;
 
 public sealed class Product
 {
-    public Id Id { get; }
-    public Name Name { get; }
-    public Price Price { get; }
-    public Quantity Quantity { get; }
-    public bool IsAvailable { get; }
+    public Id Id { get; set; }
+    public Name Name { get; set; }
+    public Price Price { get; set; }
+    public Quantity Quantity { get; set; }
+    public bool IsAvailable { get; set; }
 
     private Product(Id id, Name name, Price price, Quantity quantity, bool isAvailable)
     {
@@ -50,7 +50,7 @@ public sealed class Product
                 IsAvailable: {IsAvailable}
                 """;
     }
-    
+
     public static string ToCsv(Product product)
     {
         return $"{product.Id.Value}," +
@@ -59,7 +59,7 @@ public sealed class Product
                $"{product.Quantity.Value}," +
                $"{product.IsAvailable}";
     }
-    
+
     public static Product ToProduct(string product)
     {
         var properties = product.Split(',');

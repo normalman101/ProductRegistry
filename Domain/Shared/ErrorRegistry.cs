@@ -4,13 +4,13 @@ public static class ErrorRegistry
 {
     public static Error None => new("None", "Ошибка отсутствует");
 
-    public static Error IncorrectId => new(
-        "IncorrectId",
+    public static Error IncorrectIdValue => new(
+        "IncorrectIdValue",
         "Неправильное значение артикула"
     );
 
-    public static Error IncorrectName => new(
-        "IncorrectName",
+    public static Error IncorrectNameValue => new(
+        "IncorrectNameValue",
         "Неправильное значение имени"
     );
 
@@ -24,18 +24,21 @@ public static class ErrorRegistry
         "Неправльное значение количества"
     );
 
-    public static Error ProductsUnavailable => new(
-        "NoProductsAvailable",
-        "Товары отсутствуют"
-    );
+    public static class Product
+    {
+        public static Error ProductsUnavailable => new(
+            "NoProductsAvailable",
+            "Товары отсутствуют"
+        );
 
-    public static Error ProductNotFound => new(
-        "ProductNotFound",
-        "Товар не найден"
-    );
+        public static Error NotFound => new(
+            "ProductNotFound",
+            "Товар не найден"
+        );
 
-    public static Error ProductAlreadyExists => new(
-        "ProductAlreadyExists",
-        "Товар уже существует"
-    );
+        public static Error AlreadyExists => new(
+            "ProductAlreadyExists",
+            "Товар уже существует"
+        );
+    }
 }

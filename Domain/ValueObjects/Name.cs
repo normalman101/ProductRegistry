@@ -11,7 +11,7 @@ public sealed record Name
     public static Result<Name> Create(string value)
     {
         return string.IsNullOrWhiteSpace(value)
-            ? Result<Name>.Failure(ErrorRegistry.IncorrectName)
+            ? Result<Name>.Failure(ErrorRegistry.IncorrectNameValue)
             : Result<Name>.Success(new Name(value));
     }
 }

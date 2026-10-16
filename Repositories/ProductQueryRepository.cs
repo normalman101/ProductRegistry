@@ -30,9 +30,9 @@ public sealed class ProductQueryRepository(
             return Result<Product>.Success(Product.ToProduct(line));
         }
 
-        await logger.SendAsync(LogType.Err, ErrorRegistry.ProductNotFound.Message);
+        await logger.SendAsync(LogType.Err, ErrorRegistry.Product.NotFound.Message);
 
-        return Result<Product>.Failure(ErrorRegistry.ProductNotFound);
+        return Result<Product>.Failure(ErrorRegistry.Product.NotFound);
     }
 
     public async Task<Result<Product>> GetMostExpensiveAsync()
@@ -59,11 +59,13 @@ public sealed class ProductQueryRepository(
 
         if (mostExpensive is null)
         {
-            await logger.SendAsync(LogType.Err, ErrorRegistry.ProductNotFound.Message);
-            return Result<Product>.Failure(ErrorRegistry.ProductNotFound);
+            await logger.SendAsync(LogType.Err, ErrorRegistry.Product.NotFound.Message);
+
+            return Result<Product>.Failure(ErrorRegistry.Product.NotFound);
         }
 
         await logger.SendAsync(LogType.Info, "Самый дорогой товар нашелся");
+
         return Result<Product>.Success(mostExpensive);
     }
 
@@ -85,11 +87,13 @@ public sealed class ProductQueryRepository(
 
         if (totalCost == 0)
         {
-            await logger.SendAsync(LogType.Err, ErrorRegistry.ProductsUnavailable.Message);
-            return Result<Price>.Failure(ErrorRegistry.ProductsUnavailable);
+            await logger.SendAsync(LogType.Err, ErrorRegistry.Product.ProductsUnavailable.Message);
+
+            return Result<Price>.Failure(ErrorRegistry.Product.ProductsUnavailable);
         }
 
         await logger.SendAsync(LogType.Info, "Итоговая сумма получена");
+
         return Price.Create(totalCost);
     }
 
@@ -112,6 +116,15 @@ public sealed class ProductQueryRepository(
 
             unavailableProducts = [.. unavailableProducts, product];
         }
+
+        if (unavailableProducts.Length == 0)
+        {
+            await logger.SendAsync(LogType.Err, ErrorRegistry.Product.ProductsUnavailable.Message);
+
+            return Result<Product[]>.Failure(ErrorRegistry.Product.ProductsUnavailable);
+        }
+
+        await logger.SendAsync(LogType.Info, "Распроданные товары получены");
 
         return Result<Product[]>.Success(unavailableProducts);
     }
